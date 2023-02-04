@@ -17,7 +17,7 @@
     <main class="principal" id="app">
         <section class="header">
             <div class="content-title">
-                <strong> Registro de usuario UGB </strong>
+                <strong> Ingreso de usuario UGB </strong>
             </div>
             <div class="content-image">
                 <div class="ajust-image">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </section>
-        <form class="body" @reset.prevent="nuevoDocente" v-on:submit.prevent="guardarDocente">
+        <form class="body">
             <div class="body-container">
                 <div class="targeta-registro">
                     <div class="contenedor-title">
@@ -46,8 +46,8 @@
                 </div>
             </div>
             <section class="footer">
-                <div class="contenedor-enviar" v-on:summit>
-                    <input type="submit" value="Guardar">
+                <div class="contenedor-enviar" v-on:summit id="btIngresarUGB">
+                    <p>Ingresar</p>
                 </div>
             </section>
         </form>
@@ -132,7 +132,11 @@
                 </div>
             </div>
         </section>
-        <div class="footer"></div>
+        <div class="footer">
+            <div class="contenedor-enviar" v-on:summit id="btRegistrarUGB">
+                <p>Registrarse</p>
+            </div>
+        </div>
     </section>
     <section class="video-publish">
         <div class="degradado"></div>

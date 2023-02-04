@@ -334,8 +334,6 @@ function showHideMap (boton,mapParent,addClass){
   })
 }
 
-
-
 validateEmail(datos.form.nodos.nodeEmail);
   
 validatePassword(datos.form.nodos.nodePassword);
@@ -357,16 +355,17 @@ showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMa
 
 
 
+const sendActionVue = document.querySelector("#btIngresarUGB");
 
 
-
-
-
-
-
-
-
-const { createApp } = Vue;
+const formulario = document.querySelector("#app form");
+const email = document.querySelector("#email");
+const password = document.querySelector("#password");
+sendActionVue.addEventListener("click", function() {
+  document.querySelector("body").setAttribute("class","negro");
+  formulario.setAttribute("reset.prevent","nuevoDocente");
+  formulario.setAttribute("v-on:submit.prevent","guardarDocente");
+  const { createApp } = Vue;
         createApp({
             data() {
                 return {
@@ -375,7 +374,7 @@ const { createApp } = Vue;
                         id     : '',
                         codigo : '',
                         nombre : '',
-                    }
+                    },
                 }
             },
             methods:{
@@ -389,6 +388,13 @@ const { createApp } = Vue;
                     this.docente.id = '';
                     this.docente.codigo = '';
                     this.docente.nombre = '';
-                }
+                },
             }
         }).mount('#app');
+})
+
+
+
+
+
+
