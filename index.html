@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro alumnos</title>
+    <link rel="stylesheet" type="text/css" href="static/styles/basic.css">
+    <link rel="stylesheet" type="text/css" href="static/styles/index.css">
+    <link rel="stylesheet" type="text/css" href="static/styles/Fuentes-tipografia.css">
+    <link rel="stylesheet" type="text/css" href="static/resource/icomoon/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="static/scripts/vue.global.js"></script>
+</head>
+<body>
+    <main class="principal" id="app">
+        <section class="header">
+            <div class="content-title">
+                <strong> Registro de usuario UGB </strong>
+            </div>
+            <div class="content-image">
+                <div class="ajust-image">
+                    <img src="static/resource/img/logo-ugb.png">
+                </div>
+            </div>
+        </section>
+        <form class="body" @reset.prevent="nuevoDocente" v-on:submit.prevent="guardarDocente">
+            <div class="body-container">
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu correo institucional</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="docente.codigo" class="email" type="email" placeholder="Correo Institucional" title="Correo Institucional" id="email">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu contraseña</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="docente.nombre" class="password" type="password" placeholder="Contraseña" title="Contraseña" id="password">
+                        <p>La contraseña deberia tener al menos 8 caracteres, con al menos una letra y un número</p>
+                    </div>
+                </div>
+            </div>
+            <section class="footer">
+                <div class="contenedor-enviar" v-on:summit>
+                    <input type="submit" value="Guardar">
+                </div>
+            </section>
+        </form>
+    </main>
+    <section class="principal2">
+        <section class="header">
+            <div class="content-title">
+                <strong> Nuevo ingreso UGB </strong>
+            </div>
+        </section>
+        <section class="body">
+            <div class="body-container">
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu nombre completo</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="nombreFull" type="name" placeholder="Nombre completo" title="Nombre completo" id="nombreFull">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu edad</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="edad" type="name" placeholder="Edad en años" title="Edad" id="edad">
+                    </div>
+                </div>
+                <div class="targeta-registro map">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu dirección</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="direccion" type="name" placeholder="Dirección de donde vives" title="Dirección de donde vives" id="direccion">
+                        <div class="boton-show-map" id="mostrar-mapa" title="Mostrar mapa">
+                            <span class="icon-keyboard_arrow_down"></span>
+                        </div>
+                    </div>
+                    <div class="contenedor-mapa">
+                        <div class="mapa" id='map'></div>
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu municipio</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="municipio" type="name" placeholder="Dirección de tu municipio" title="Dirección de tu municipio" id="municipio">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu departamento</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="departamento" type="name" placeholder="Dirección de tu departamento" title="Dirección de tu departamento" id="departamento">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu telefono</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="telefono" type="name" placeholder="Dirección de tu telefono" title="Dirección de tu telefono" id="telefono">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu fecha de nacimiento</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="fechaNacimiento" type="date" placeholder="Fecha de nacimiento" title="Fecha de nacimiento" id="fechaNacimiento">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Indicanos cual es tu sexo</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input class="sexo" type="name" placeholder="Sexo" title="Especifica tu sexo" id="sexo">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="footer"></div>
+    </section>
+    <section class="video-publish">
+        <div class="degradado"></div>
+        <div class="degradado2"></div>
+        <div class="degradado3"></div>
+        <div class="video-container">
+            <video src="static/resource/videos/video.mp4" autoplay loop></video>
+        </div>
+    </section>
+
+    <script src="static/scripts/basic.js" ></script>
+    <script src="static/scripts/jquery.js" ></script>
+</body>
+</html>

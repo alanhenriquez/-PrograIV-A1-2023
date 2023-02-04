@@ -1,0 +1,77 @@
+
+
+:root{
+    --color-background-main1: #fbfbfb;
+    --color-background-main2: #dfdfdf;
+    --color-background-main3: #373737;
+    --color-background-main4: #2c2c2c;
+    --color-background-main5: #7e7e7e;
+    --color-background-main6: #555555;
+    --color-border-main1: #e7e7e7;
+    --color-border-main2: #939393;
+    --color-border-main3: #000000;
+    --color-font-main1: #262626;
+    --color-font-main2: #ffffff;
+    --color-font-main3: #5a5a5a;
+    --color-1: #5cc1ff;
+    --color-2: #cd1010;
+    --color-3: #e4c600;
+    --color-4: rgb(27, 194, 25);
+    --color-white-1:#ffffff;
+    --color-white-2:#fbfbfb;
+    --color-white-3:#e0e0e0;
+    --color-gris-1:#c0c0c0;
+    --color-gris-2:#ababab;
+    --color-gris-3:#a5a5a5;
+    --color-gris-4:#8f8f8f;
+    --color-gris-5:#7e7e7e;
+    --color-gris-6:#6a6a6a;
+    --color-gris-7:#575757;
+    --color-gris-8:#444444;
+    --color-gris-9:#333333;
+    --color-gris-10:#272727;
+    --color-black-1:#262626;
+    --color-black-2:#1e1e1e;
+    --color-black-3:#181818;
+    --color-black-4:#000000;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 1.1vw;
+    color: var(--color-font-main1);
+    font-family: Roboto8;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    float: left;
+    overflow: auto;
+    overflow-x: hidden;
+    background: var(--color-white-1);
+}
+
+
+
+
+
+@keyframes showDownMap {
+    0%{
+        height: 0vw;
+    }
+    100%{
+        height: 20vw;
+    }
+}
+
+@keyframes hideUpMap {
+    0%{
+        height: 20vw;
+    }
+    100%{
+        height: 0vw;
+    }
+}
