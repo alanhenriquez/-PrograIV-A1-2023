@@ -350,6 +350,28 @@ showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMa
 
 
 
+export default {
+  data() {
+    return {
+      input1: '',
+      input2: ''
+    }
+  },
+  methods: {
+    saveData() {
+      localStorage.setItem('input1', this.input1);
+      localStorage.setItem('input2', this.input2);
+    }
+  },
+  mounted() {
+    const input1 = document.getElementById('input1');
+    const input2 = document.getElementById('input2');
+    input1.setAttribute('v-model', 'input1');
+    input2.setAttribute('v-model', 'input2');
+    this.$mount(input1);
+    this.$mount(input2);
+  }
+}
 
 
 
