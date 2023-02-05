@@ -349,7 +349,7 @@ leafletMap(datos.map.nodos.nodeMap,datos.form.nodos.nodeDireccion,13.341725,-88.
 showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMap,datos.form.class.show);
 
 
-
+/*
 export default {
   data() {
     return {
@@ -372,11 +372,23 @@ export default {
     this.$mount(input2);
   }
 }
+*/
+
+
+const { createApp } = Vue;
+
+createApp({
+  data() {
+    return {
+      input1: "",
+      input2: ""
+    }
+  }
+})
 
 
 
-
-
+/*
 const sendActionVue = document.querySelector("#btIngresarUGB");
 
 
@@ -415,7 +427,7 @@ sendActionVue.addEventListener("click", function() {
         }).mount('#app');
 })
 
-
+*/
 
 
 
