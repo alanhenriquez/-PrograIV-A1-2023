@@ -1,30 +1,13 @@
 
 
 
-// Arbol de datos
 
-const datos = {
-  form:{
-    nodos:{
-      nodeEmail: document.getElementById("email"),
-      nodePassword: document.getElementById("password"),
-      nodeName: document.getElementById("nombreFull"),
-      nodeEdad: document.getElementById("edad"),
-      nodeDireccion: document.getElementById("direccion"),
-      nodeDireccionBotonMap: document.getElementById("mostrar-mapa"),
-      nodeParentMap: document.querySelector(".targeta-registro.map .contenedor-mapa"),
-    },
-    class:{
-      valid: "correct",
-      show: "show",
-    }
-  },
-  map:{
-    nodos:{
-      nodeMap: document.querySelector("#map"),
-    }
-  }
-}
+
+
+
+
+
+
 
 // Validates * * * * * * * * * *
 
@@ -261,8 +244,11 @@ function validateAddressNode(address) {
   }
 }
 
-// MAPA * * * * * * * * * *
 
+
+
+
+// Mapa * * * * * * * * * *
 
 function leafletMap(idMap, nodeToResult, initLat, initLong, usePopup) {
   var map = L.map(idMap).setView([initLat, initLong], 15);
@@ -334,101 +320,46 @@ function showHideMap (boton,mapParent,addClass){
   })
 }
 
-validateEmail(datos.form.nodos.nodeEmail);
-  
-validatePassword(datos.form.nodos.nodePassword);
-
-validateName(datos.form.nodos.nodeName);
-
-validateAge(datos.form.nodos.nodeEdad);
-
-validateAddressNode(document.getElementById("direccion"));
-
-leafletMap(datos.map.nodos.nodeMap,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
-
-showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMap,datos.form.class.show);
 
 
-/*
-export default {
-  data() {
-    return {
-      input1: '',
-      input2: ''
-    }
-  },
-  methods: {
-    saveData() {
-      localStorage.setItem('input1', this.input1);
-      localStorage.setItem('input2', this.input2);
-    }
-  },
-  mounted() {
-    const input1 = document.getElementById('input1');
-    const input2 = document.getElementById('input2');
-    input1.setAttribute('v-model', 'input1');
-    input2.setAttribute('v-model', 'input2');
-    this.$mount(input1);
-    this.$mount(input2);
-  }
+
+
+// Generadores * * * * * * * * * *
+
+//----------GENERADOR DE ID UNICO
+
+function generateUniqueID() {
+  return new Date().getTime().toString(20);
 }
-*/
+
+//----------GENERADOR DE TIEMPO
+
+function generateCurrentTime() {
+  return new Date().toLocaleTimeString();
+}
+
+//----------GENERADOR DE ICONO SHORTCUT
+
+function generateShortCutIcon(linkImg){
+  var link_icon_web = document.querySelector("link[rel='shortcut icon']") || document.createElement('link');
+  link_icon_web.type = 'image/x-icon';
+  link_icon_web.rel = 'shortcut icon';
+  link_icon_web.href = linkImg;
+  document.getElementsByTagName('head')[0].appendChild(link_icon_web);
+}
 
 
-const { createApp } = Vue;
-
-createApp({
-  data() {
-    return {
-      input1: "",
-      input2: ""
-    }
-  }
-})
 
 
 
-/*
-const sendActionVue = document.querySelector("#btIngresarUGB");
+// Direcciones href * * * * * * * * * *
 
+//----------CAMBIO POR DIRECCION HREF
 
-const formulario = document.querySelector("#app form");
-const email = document.querySelector("#email");
-const password = document.querySelector("#password");
-sendActionVue.addEventListener("click", function() {
-  document.querySelector("body").setAttribute("class","negro");
-  formulario.setAttribute("reset.prevent","nuevoDocente");
-  formulario.setAttribute("v-on:submit.prevent","guardarDocente");
-  const { createApp } = Vue;
-        createApp({
-            data() {
-                return {
-                    docentes: [],
-                    docente:{
-                        id     : '',
-                        codigo : '',
-                        nombre : '',
-                    },
-                }
-            },
-            methods:{
-                guardarDocente(){
-                    this.docentes = JSON.parse(localStorage.getItem("docente") || "[]" );
-                    this.docentes.push( this.docente );
-                    localStorage.setItem("docente", JSON.stringify(this.docentes) );
-                    this.nuevoDocente();
-                },
-                nuevoDocente(){
-                    this.docente.id = '';
-                    this.docente.codigo = '';
-                    this.docente.nombre = '';
-                },
-            }
-        }).mount('#app');
-})
-
-*/
-
-
+function changePageHref(link){
+  let linkNode = document.createElement("a");
+  linkNode.setAttribute("href",link);
+  linkNode.click();
+}
 
 

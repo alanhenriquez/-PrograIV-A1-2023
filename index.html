@@ -21,7 +21,7 @@
             </div>
             <div class="content-image">
                 <div class="ajust-image">
-                    <img src="static/resource/img/logo-ugb.png">
+                    <img src="static/resource/img/logo/img3000.png">
                 </div>
             </div>
         </section>
@@ -32,7 +32,7 @@
                         <p>Escribe tu correo institucional</p>
                     </div>
                     <div class="contenedor-input">
-                        <input v-model="docente.codigo" class="email" type="email" placeholder="Correo Institucional" title="Correo Institucional" id="email">
+                        <input v-model="alumno.email" class="email" type="email" placeholder="Correo Institucional" title="Correo Institucional" id="email">
                     </div>
                 </div>
                 <div class="targeta-registro">
@@ -40,13 +40,13 @@
                         <p>Escribe tu contraseña</p>
                     </div>
                     <div class="contenedor-input">
-                        <input v-model="docente.nombre" class="password" type="password" placeholder="Contraseña" title="Contraseña" id="password">
+                        <input v-model="alumno.password" class="password" type="password" placeholder="Contraseña" title="Contraseña" id="password">
                         <p>La contraseña deberia tener al menos 8 caracteres, con al menos una letra y un número</p>
                     </div>
                 </div>
             </div>
             <section class="footer">
-                <div class="contenedor-enviar" v-on:summit id="btIngresarUGB">
+                <div class="contenedor-enviar" v-on:click="guardarAlumno">
                     <p>Ingresar</p>
                 </div>
             </section>
@@ -148,6 +148,7 @@
     </section>
 
     <script src="static/scripts/basic.js" ></script>
+    <script src="static/scripts/index.js" ></script>
     <script src="static/scripts/jquery.js" ></script>
 </body>
 </html>
