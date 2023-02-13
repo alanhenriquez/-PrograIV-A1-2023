@@ -63,7 +63,32 @@ function findChildNodes(element, searchValue) {
   return matchingNodes;
 }
 
+//----------ENCONTRAR ELEMENTO HIJO DE ARRAY POR RUTA
 
+function findKeyChildNode(data, searchKeyArray) {
+  let result = [];
+  for (let i = 0; i < data.length; i++) {
+      let item = data[i];
+      let searchKeys = searchKeyArray.split("/");
+      let currentItem = item;
+      let found = true;
+      for (let j = 0; j < searchKeys.length; j++) {
+          if (!currentItem[searchKeys[j]]) {
+              found = false;
+              break;
+          }
+          currentItem = currentItem[searchKeys[j]];
+      }
+
+      if (found) {
+          result.push(currentItem);
+      }
+  }
+  if (result.length == 0) {
+      result.push("Datos no encontrados");
+  }
+  return result;
+}
 
 
 

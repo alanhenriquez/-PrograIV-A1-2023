@@ -131,32 +131,36 @@ imprimirListadoLocalStorage();
 
 searchFromLocalStorage("#search", "alumno", "#list ul" , ["email", "id", "password"]);
 
-function findKeyChildNode(data, searchKey) {
-    let result = [];
-    for (let i = 0; i < data.length; i++) {
-        let item = data[i];
-        let searchKeys = searchKey.split("/");
-        let currentItem = item;
-        let found = true;
-        for (let j = 0; j < searchKeys.length; j++) {
-            if (!currentItem[searchKeys[j]]) {
-                found = false;
-                break;
-            }
-            currentItem = currentItem[searchKeys[j]];
-        }
+function deleteLocalStorageData(event) {
+    let target = event.target;
+    let emailElement = findParentNode(target, "containerMainData").querySelector(".mainData.email .data p");
+    let email = emailElement.textContent;
 
-        if (found) {
-            result.push(currentItem);
-        }
+    console.log(email);
+  
+    
+    let localStorageData = JSON.parse(localStorage.getItem("alumno"));
+    for (let i = 0; i < localStorageData.length; i++) {
+      if (localStorageData[i].usuario.email === email) {
+        localStorageData.splice(i, 1);
+        break;
+      }
     }
-    if (result.length == 0) {
-        result.push("Datos no encontrados");
-    }
-    return result;
+  
+    localStorage.setItem("alumno", JSON.stringify(localStorageData));
+  
+    let containerMainData = findParentNode(target, "containerMainData");
+    containerMainData.parentNode.remove();
+    
+}
+  
+let deleteButton = document.querySelectorAll(".icon-delete");
+for (let i = 0; i < deleteButton.length; i++) {
+deleteButton[i].addEventListener("click", deleteLocalStorageData);
 }
 
-let localStorageData = [{"usuario":{"idPlus":{"valor":"Agregado","agua":"deliciosa"},"id":"id35971i601c","email":"henriqueza249@gmail.com","password":"HenrquezUGB2020"},"cont":{"img":"hola"}},{"usuario":{"id":"id359a655338","email":"usis003421@ugb.edu.sv","password":"ProgresoUGB2023"},"cont":{"img":"hola"}},{"usuario":{"id":"id359a6e2fhi","email":"alanderek@gmail.com","password":"12345678P"},"cont":{"img":"hola"}}];
+
+let localStorageData = [{"usuario":{"id":"id35971i601c","email":"henriqueza249@gmail.com","password":"HenrquezUGB2020"},"cont":{"img":"hola"}},{"usuario":{"id":"id359a655338","email":"usis003421@ugb.edu.sv","password":"ProgresoUGB2023"},"cont":{"img":"hola"}}];
 
 let storageData = JSON.parse(localStorage.getItem("alumno"));
 let result = findKeyChildNode(storageData, "usuario");
