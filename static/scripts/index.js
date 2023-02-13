@@ -81,7 +81,7 @@ createApp({
 
 
 
-generateShortCutIcon("/static/resource/img/logo/img1000.png");
+generateShortCutIcon("static/resource/img/logo/img1000.png");
 
 validateEmail(document.querySelector("#email"));
   
