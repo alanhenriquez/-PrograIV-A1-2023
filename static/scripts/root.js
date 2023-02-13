@@ -125,7 +125,7 @@ function searchFromLocalStorage(idInput, getKey, nodeToPrint, searchFields) {
 
 
 
-generateShortCutIcon("/static/resource/img/logo/img1000.png");
+generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
 imprimirListadoLocalStorage();
 
