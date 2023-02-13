@@ -5,14 +5,80 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="static/styles/basic.css">
-    <link rel="stylesheet" type="text/css" href="static/resource/icomoon/style.css">
-    <link rel="stylesheet" type="text/css" href="static/styles/Fuentes-tipografia.css">
-    <script src="static/scripts/vue.global.js"></script>
+    <link rel="stylesheet" href="/static/styles/basic.css">
+    <link rel="stylesheet" href="/static/styles/root.css">
+    <link rel="stylesheet" href="/static/resource/icomoon/style.css">
+    <link rel="stylesheet" href="/static/styles/Fuentes-tipografia.css">
+    <script src="/static/scripts/vue.global.js"></script>
 </head>
 <body>
-    <script src="/static/scripts/basic.js" ></script>
-    <script src="/static/scripts/root.js" ></script>
-    <script src="/static/scripts/jquery.js" ></script>
+
+    <div class="main">
+        <div class="header"></div>
+        <div class="body">
+            <div class="targetaData">
+                <div class="title">
+                    <div class="titleCont">
+                        <p>Usuarios Ingresados</p>
+                    </div>
+                    <div class="titleSearch">
+                        <div class="searchContent">
+                            <input type="text" placeholder="Buscar usuario" id="search">
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="listado" id="list">
+                        <ul>
+                            <li>
+                                <div class="containerMainData">
+                                    <div class="containerHeader">
+                                        <div class="titulo">
+                                            <p>Email del usuario a identificar</p>
+                                        </div>
+                                        <div class="opciones">
+                                            <div class="containerDeleteAll">
+                                                <span class="icon-delete" title="Borrar todo" id="delete"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="containerData">
+                                        <div class="mainData id">
+                                            <div class="topic">
+                                                <p>Id usuario</p>
+                                            </div>
+                                            <div class="data">
+                                                <p>data</p>
+                                            </div>
+                                        </div>
+                                        <div class="mainData email">
+                                            <div class="topic">
+                                                <p>Email usuario</p>
+                                            </div>
+                                            <div class="data">
+                                                <p>data</p>
+                                            </div>
+                                        </div>
+                                        <div class="mainData password">
+                                            <div class="topic">
+                                            <p>Contraseña usuario</p>
+                                            </div>
+                                            <div class="data">
+                                                <p>data</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer"></div>
+    </div>
+
+    <script src="/static/scripts/basic.js"></script>
+    <script src="/static/scripts/root.js"></script>
 </body>
 </html>

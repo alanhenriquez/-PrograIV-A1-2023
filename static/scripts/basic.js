@@ -2,6 +2,70 @@
 
 
 
+// Finders * * * * * * * * * *
+
+//----------ENCONTRAR ELEMENTO PADRE POR CLASE, ID O TAGNAME
+
+function findParentNode(element, targetParentClass) {
+  let current = element;
+  while (current) {
+    if ((current.classList && current.classList.contains(targetParentClass)) ||
+        (current.id && current.id === targetParentClass) ||
+        (current.tagName && current.tagName === targetParentClass.toUpperCase())) {
+      return current;
+    }
+    current = current.parentNode;
+  }
+  return null;
+};
+
+//----------ENCONTRAR ELEMENTO HIJO POR CLASE, ID O TAGNAME
+
+function findChildNode(element, searchValue) {
+  if (!element || !element.children) {
+    return null;
+  }
+
+  let children = element.children;
+  for (let i = 0; i < children.length; i++) {
+    let child = children[i];
+    if ((child.classList && child.classList.contains(searchValue)) ||
+        (child.id && child.id === searchValue) ||
+        (child.tagName && child.tagName === searchValue.toUpperCase())) {
+      return child;
+    }
+
+    let found = findChildNode(child, searchValue);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+}
+
+function findChildNodes(element, searchValue) {
+  if (!element || !element.children) {
+    return [];
+  }
+
+  let children = element.children;
+  let matchingNodes = [];
+  for (let i = 0; i < children.length; i++) {
+    let child = children[i];
+    if ((child.classList && child.classList.contains(searchValue)) ||
+        (child.id && child.id === searchValue) ||
+        (child.tagName && child.tagName === searchValue.toUpperCase())) {
+      matchingNodes.push(child);
+    }
+  }
+
+  return matchingNodes;
+}
+
+
+
+
 
 
 
@@ -248,6 +312,11 @@ function validateAddressNode(address) {
 
 
 
+
+
+
+
+
 // Mapa * * * * * * * * * *
 
 function leafletMap(idMap, nodeToResult, initLat, initLong, usePopup) {
@@ -324,6 +393,11 @@ function showHideMap (boton,mapParent,addClass){
 
 
 
+
+
+
+
+
 // Generadores * * * * * * * * * *
 
 //----------GENERADOR DE ID UNICO
@@ -352,6 +426,12 @@ function generateShortCutIcon(linkImg){
 
 
 
+
+
+
+
+
+
 // Direcciones href * * * * * * * * * *
 
 //----------CAMBIO POR DIRECCION HREF
@@ -363,3 +443,14 @@ function changePageHref(link){
 }
 
 
+
+// Acciones sobre input * * * * * * * * * *
+
+//----------ACCIONES AL ESCRIBIR
+
+function actionOnInput(input, callback) {
+  let inputElem = document.querySelector(input);
+  inputElem.addEventListener("input", function() {
+      callback();
+  });
+}

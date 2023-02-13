@@ -3,13 +3,6 @@
 
 
 
-
-
-
-
-
-// Arbol de datos * * * * * * * * * *
-
 const datos = {
     form:{
         nodos:{
@@ -47,17 +40,21 @@ createApp({
         return {
             alumnos: [],
             alumno:{
-                id: "",
-                email: '',
-                password: '',
+                usuario:{
+                    id: '',
+                    email: '',
+                    password: '',
+                },  
+                cont:{
+                    img: 'hola',
+                },
             },
-
         }
     },
     methods:{
         guardarAlumno(){
-          if (validEmail(this.alumno.email) && validPassword(this.alumno.password)){
-            this.alumno.id = "id" + generateUniqueID();
+          if (validEmail(this.alumno.usuario.email) && validPassword(this.alumno.usuario.password)){
+            this.alumno.usuario.id = "id" + generateUniqueID();
             this.alumnos = JSON.parse(localStorage.getItem("alumno") || "[]" );
             this.alumnos.push( this.alumno );
             localStorage.setItem("alumno", JSON.stringify(this.alumnos) );
@@ -84,7 +81,7 @@ createApp({
 
 
 
-
+generateShortCutIcon("/static/resource/img/logo/img1000.png");
 
 validateEmail(document.querySelector("#email"));
   

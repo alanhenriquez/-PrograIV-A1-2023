@@ -19,7 +19,8 @@
     --color-4: rgb(27, 194, 25);
     --color-white-1:#ffffff;
     --color-white-2:#fbfbfb;
-    --color-white-3:#e0e0e0;
+    --color-white-3:#f4f4f4;
+    --color-white-4:#e0e0e0;
     --color-gris-1:#c0c0c0;
     --color-gris-2:#ababab;
     --color-gris-3:#a5a5a5;
@@ -51,7 +52,7 @@ body{
     float: left;
     overflow: auto;
     overflow-x: hidden;
-    background: var(--color-white-1);
+    background: var(--color-white-3);
 }
 
 

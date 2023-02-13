@@ -1,0 +1,271 @@
+
+
+
+
+
+
+
+
+
+.main{
+    width: 90vw;
+    height: 100vh;
+    top: 0%;
+    left: 50%;
+    float: left;
+    position: relative;
+    transform: translate(-50%,-0%);
+}
+
+.main .header{
+    width: 100%;
+    height: 10vw;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body{
+    width: 100%;
+    height: auto;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body .targetaData{
+    width: 75vw;
+    height: auto;
+    top: 0%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    transform: translate(-50%,-0%);
+    border-radius: 3vw;
+    margin-bottom: 10vw;
+}
+
+.main .body .targetaData .title{
+    width: 100%;
+    height: 10vw;
+    top: 0%;
+    left: 50%;
+    float: left;
+    position: relative;
+    transform: translate(-50%,-0%);
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,102,121,1) 35%, rgba(0,212,255,1) 100%); 
+}
+
+.main .body .targetaData:nth-child(2n) .title{
+    width: 100%;
+    height: 25%;
+    top: 0%;
+    left: 50%;
+    float: left;
+    position: relative;
+    transform: translate(-50%,-0%);  
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(55,9,121,1) 35%, rgba(255,0,191,1) 100%); 
+}
+
+.main .body .targetaData .title .titleCont{
+    width: 70%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body .targetaData .title .titleCont p{
+    width: 90%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    transform: translate(-50%,-50%);
+    font-size: 1.5vw;
+    color: #ffffff;
+}
+
+.main .body .targetaData .title .titleSearch{
+    width: 30%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body .targetaData .title .titleSearch .searchContent{
+    width: auto;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    transform: translate(-50%,-50%);
+}
+
+.main .body .targetaData .title .titleSearch .searchContent input{
+    width: 17vw;
+    height: 2.5vw;
+    padding-left: 1vw;
+    border: none;
+    outline: none;
+    border-radius: 1vw;
+}
+
+.main .body .targetaData .title .titleSearch .searchContent input:focus{
+    border: none;
+    outline: none;
+}
+
+.main .body .targetaData .content{
+    width: 100%;
+    height: 30vw;
+    top: 0%;
+    left: 50%;
+    float: left;
+    position: relative;
+    transform: translate(-50%,-0%);
+}
+
+.main .body .targetaData .content .listado{
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 50%;
+    float: left;
+    position: relative;
+    transform: translate(-50%,-0%);
+}
+
+.main .body .targetaData .content .listado ul{
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 50%;
+    float: left;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    transform: translate(-50%,-0%);
+}
+
+.main .body .targetaData .content .listado ul li{
+    width: 100%;
+    height: auto;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1vw;
+}
+
+.main .body .targetaData:nth-child(n+2) .content .listado ul li{
+    width: 100%;
+    height: auto;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+}
+
+.main .body .targetaData.content .listado ul li .containerMainData{
+    width: 100%;
+    height: auto;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader{
+    width: 100%;
+    height: 5vw;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .titulo{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .titulo p{
+    width: 90%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    transform: translate(-50%,-50%);
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .containerDeleteAll{
+    width: 25%;
+    height: 100%;
+    float: right;
+    overflow: hidden;
+    position: relative;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .containerDeleteAll span{
+    width: auto;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    transform: translate(-50%,-50%);
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+
+.main .body .targetaData .content .listado ul li .containerMainData .containerData{
+    width: 100%;
+    height: auto;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.mainData{
+    width: 90%;
+    height: auto;
+    top: 0%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    transform: translate(-50%,-0%);
+    background: #e3e3e3;
+    border-radius: 2vw;
+    padding: 1vw;
+    margin: 1vw 0vw;
+}
+
+.mainData .topic{
+    width: 30%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    margin-right: 10%;
+}
+
+
+
+
+
+
