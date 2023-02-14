@@ -2,7 +2,7 @@
 
 
 
-function imprimirListadoLocalStorage() {
+function printFromLocalStorageToDOM() {
     let listado = localStorage.getItem("alumno");
     if (listado) {
       listado = JSON.parse(listado);
@@ -57,7 +57,7 @@ function imprimirListadoLocalStorage() {
 }
 
 
-function searchFromLocalStorage(idInput, getKey, nodeToPrint, searchFields) {
+function inputSearchToLocalStorage(idInput, getKey, nodeToPrint, searchFieldsArray) {
     let searchInput = document.querySelector(idInput);
     actionOnInput(idInput, function() {
         let searchTerm = searchInput.value.toLowerCase();
@@ -67,8 +67,8 @@ function searchFromLocalStorage(idInput, getKey, nodeToPrint, searchFields) {
             let listaHTML = "";
             for (let i = 0; i < listado.length; i++) {
                 let list = listado[i];
-                for (let j = 0; j < searchFields.length; j++) {
-                    let field = searchFields[j];
+                for (let j = 0; j < searchFieldsArray.length; j++) {
+                    let field = searchFieldsArray[j];
                     let value = list.usuario[field];
                     if (value && value.toLowerCase().includes(searchTerm)) {
                         listaHTML += `
@@ -127,55 +127,18 @@ function searchFromLocalStorage(idInput, getKey, nodeToPrint, searchFields) {
 
 generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
-imprimirListadoLocalStorage();
+printFromLocalStorageToDOM();
 
-searchFromLocalStorage("#search", "alumno", "#list ul" , ["email", "id", "password"]);
+inputSearchToLocalStorage("#search", "alumno", "#list ul" , ["email", "id", "password"]);
 
-function deleteLocalStorageData(event) {
-    let target = event.target;
-    let emailElement = findParentNode(target, "containerMainData").querySelector(".mainData.email .data p");
-    let email = emailElement.textContent;
 
-    console.log(email);
-  
-    
-    let localStorageData = JSON.parse(localStorage.getItem("alumno"));
-    for (let i = 0; i < localStorageData.length; i++) {
-      if (localStorageData[i].usuario.email === email) {
-        localStorageData.splice(i, 1);
-        break;
-      }
-    }
-  
-    localStorage.setItem("alumno", JSON.stringify(localStorageData));
-  
-    let containerMainData = findParentNode(target, "containerMainData");
-    containerMainData.parentNode.remove();
-    
-}
+
+
   
 let deleteButton = document.querySelectorAll(".icon-delete");
 for (let i = 0; i < deleteButton.length; i++) {
-deleteButton[i].addEventListener("click", deleteLocalStorageData);
+    deleteButton[i].addEventListener("click", function(e){
+        deleteLocalStorageDOMData(e,"li",".containerHeader .titulo p","alumno","usuario/email");
+    });
 }
 
-
-let localStorageData = [{"usuario":{"id":"id35971i601c","email":"henriqueza249@gmail.com","password":"HenrquezUGB2020"},"cont":{"img":"hola"}},{"usuario":{"id":"id359a655338","email":"usis003421@ugb.edu.sv","password":"ProgresoUGB2023"},"cont":{"img":"hola"}}];
-
-let storageData = JSON.parse(localStorage.getItem("alumno"));
-let result = findKeyChildNode(storageData, "usuario");
-result.forEach(element => {
-    console.log(element);
-});
-
-  
-  const deleteButtons = document.querySelectorAll(".icon-delete");
-  const containerData = document.querySelector(".containerData");
-  
-  deleteButtons.forEach(element => {
-    element.addEventListener("click", function(event) {
-      let parent = findParentNode(event.target,"containerMainData");
-      console.log(findChildNode(parent, "email"));
-    });
-  });
-  

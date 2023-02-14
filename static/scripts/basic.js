@@ -98,6 +98,88 @@ function findKeyChildNode(data, searchKeyArray) {
 
 
 
+
+// Deleters * * * * * * * * * *
+
+//----------DELETE NODO PADRE MEDIANTE HIJO
+
+function deleteParentViaChild(child,findParentIdentifier){
+  let containerMainData = findParentNode(child, findParentIdentifier);
+  containerMainData.remove();
+}
+
+//----------DELETE DATA DE LOCAL STORAGE + ALGUNA ESTRUCTURA HTML PADRE
+
+function deleteLocalStorageDOMData(botonDelete,findParentIdentifier,queryNodeToCompareText,prKeyLS,keyPathToCompare) {
+  let target = botonDelete.target;
+  let emailElement = findParentNode(target, findParentIdentifier).querySelector(queryNodeToCompareText);
+  let email = emailElement.textContent;
+
+  let localStorageData = JSON.parse(localStorage.getItem(prKeyLS));
+  for (let i = 0; i < localStorageData.length; i++) {
+      let item = localStorageData[i];
+      let searchKeys = keyPathToCompare.split("/");
+      let currentItem = item;
+      let found = true;
+      for (let j = 0; j < searchKeys.length; j++) {
+          if (!currentItem[searchKeys[j]]) {
+              found = false;
+              break;
+          }
+          currentItem = currentItem[searchKeys[j]];
+      }
+      if (found) {
+          console.log("se encontro");
+          if (currentItem === email) {
+              localStorageData.splice(i, 1);
+              console.log("se borro");
+              break;
+          }
+      }
+  }
+
+  localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
+  deleteParentViaChild(target,findParentIdentifier)
+  
+}
+
+//----------DELETE DATA DE LOCAL STORAGE
+
+function deleteLocalStorageViaCompare(textToCompare,prKeyLS,keyPathToCompare) {
+  let textCompare = textToCompare;
+  let localStorageData = JSON.parse(localStorage.getItem(prKeyLS));
+  for (let i = 0; i < localStorageData.length; i++) {
+      let item = localStorageData[i];
+      let searchKeys = keyPathToCompare.split("/");
+      let currentItem = item;
+      let found = true;
+      for (let j = 0; j < searchKeys.length; j++) {
+          if (!currentItem[searchKeys[j]]) {
+              found = false;
+              break;
+          }
+          currentItem = currentItem[searchKeys[j]];
+      }
+      if (found) {
+          if (currentItem === textCompare) {
+              localStorageData.splice(i, 1);
+              console.log("se borro");
+              break;
+          }
+      }
+  }
+  localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
+}
+
+
+
+
+
+
+
+
+
+
 // Validates * * * * * * * * * *
 
 //----------VALIDA EMAILS
@@ -342,6 +424,42 @@ function validateAddressNode(address) {
 
 
 
+
+// Existinguers * * * * * * * * * *
+
+//----------ENCONTRAMOS LA EXISTENCIA DE DATA ESPECIFICA DE LOCAL STORAGE
+
+function existLocalStorageData(textToCompare,prKeyLS,keyPathToCompare) {
+  let textCompare = textToCompare;
+  let localStorageData = JSON.parse(localStorage.getItem(prKeyLS));
+  for (let i = 0; i < localStorageData.length; i++) {
+      let item = localStorageData[i];
+      let searchKeys = keyPathToCompare.split("/");
+      let currentItem = item;
+      let found = true;
+      for (let j = 0; j < searchKeys.length; j++) {
+          if (!currentItem[searchKeys[j]]) {
+            return false;
+          }
+          currentItem = currentItem[searchKeys[j]];
+      }
+      if (found) {
+          if (currentItem === textCompare) {
+            return true;
+          }
+      }
+  }
+  return false;
+}
+
+
+
+
+
+
+
+
+
 // Mapa * * * * * * * * * *
 
 function leafletMap(idMap, nodeToResult, initLat, initLong, usePopup) {
@@ -423,7 +541,7 @@ function showHideMap (boton,mapParent,addClass){
 
 
 
-// Generadores * * * * * * * * * *
+// Generators * * * * * * * * * *
 
 //----------GENERADOR DE ID UNICO
 
@@ -457,7 +575,7 @@ function generateShortCutIcon(linkImg){
 
 
 
-// Direcciones href * * * * * * * * * *
+// Addresses href * * * * * * * * * *
 
 //----------CAMBIO POR DIRECCION HREF
 
@@ -469,7 +587,14 @@ function changePageHref(link){
 
 
 
-// Acciones sobre input * * * * * * * * * *
+
+
+
+
+
+
+
+// Actions on input * * * * * * * * * *
 
 //----------ACCIONES AL ESCRIBIR
 
@@ -479,3 +604,8 @@ function actionOnInput(input, callback) {
       callback();
   });
 }
+
+
+
+
+
