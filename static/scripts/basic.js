@@ -2,6 +2,55 @@
 
 
 
+
+
+
+
+
+
+// Printers * * * * * * * * * *
+
+//----------IMPRIMIR VALORES DEL LOCAL STORAGE A TEMPLATE HTML
+
+function printFromLocalStorageToDOM(prKeyLS, template, placeToPrint) {
+  let listado = localStorage.getItem(prKeyLS);
+  if (listado) {
+    listado = JSON.parse(listado);
+    let listaHTML = "";
+    for (let i = 0; i < listado.length; i++) {
+      let item = listado[i];
+      let currentItem = item;
+      let itemData = {};
+
+      const regex = /{([\w.]+)}/g;
+      let match;
+      while ((match = regex.exec(template)) !== null) {
+        const fullKey = match[1];
+        const value = getValueByKeys(currentItem, fullKey);
+        itemData[`{${fullKey}}`] = value;
+      }
+
+      let itemHTML = template;
+      for (let key in itemData) {
+        itemHTML = itemHTML.replaceAll(key, itemData[key]);
+      }
+      listaHTML += itemHTML;
+    }
+    document.querySelector(placeToPrint).innerHTML = listaHTML;
+  } else {
+    console.log("No hay datos en el local storage");
+  }
+}
+
+
+
+
+
+
+
+
+
+
 // Finders * * * * * * * * * *
 
 //----------ENCONTRAR ELEMENTO PADRE POR CLASE, ID O TAGNAME
@@ -91,6 +140,31 @@ function findKeyChildNode(data, searchKeyArray) {
 }
 
 
+
+
+
+
+
+
+
+
+// Getters * * * * * * * * * *
+
+//----------OBTENER LOS VALORES DE ARRAY POR SUS KEYS
+
+function getValueByKeys(obj, keysString) {
+  const keys = keysString.split('.');
+  let value = obj;
+  for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (value.hasOwnProperty(key)) {
+      value = value[key];
+      } else {
+      return undefined;
+      }
+  }
+  return value;
+}
 
 
 

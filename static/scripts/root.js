@@ -2,18 +2,16 @@
 
 
 
-function printFromLocalStorageToDOM() {
-    let listado = localStorage.getItem("alumno");
-    if (listado) {
-      listado = JSON.parse(listado);
-      let listaHTML = "";
-      for (let i = 0; i < listado.length; i++) {
-        let usuario = listado[i].usuario;
-        listaHTML += `<li>
+
+  
+
+
+// Ejemplo de plantilla
+const template = `<li>
         <div class="containerMainData">
             <div class="containerHeader">
                 <div class="titulo">
-                    <p>`+usuario.email+`</p>
+                    <p>{usuario.email}</p>
                 </div>
                 <div class="opciones">
                     <div class="containerDeleteAll">
@@ -27,7 +25,7 @@ function printFromLocalStorageToDOM() {
                         <p>Id usuario</p>
                     </div>
                     <div class="data">
-                        <p>`+usuario.id+`</p>
+                        <p>{usuario.id}</p>
                     </div>
                 </div>
                 <div class="mainData email">
@@ -35,7 +33,7 @@ function printFromLocalStorageToDOM() {
                         <p>Email usuario</p>
                     </div>
                     <div class="data">
-                        <p>`+usuario.email+`</p>
+                        <p>{usuario.email}</p>
                     </div>
                 </div>
                 <div class="mainData password">
@@ -43,18 +41,15 @@ function printFromLocalStorageToDOM() {
                     <p>Contraseña usuario</p>
                     </div>
                     <div class="data">
-                        <p>`+usuario.password+`</p>
+                        <p>{usuario.password}</p>
                     </div>
                 </div>
             </div>
         </div>
     </li>`;
-      }
-      document.querySelector("#list ul").innerHTML = listaHTML;
-    } else {
-      console.log("No hay datos en el local storage");
-    }
-}
+
+// Llamada a la función con la plantilla
+printFromLocalStorageToDOM("alumno", template, "#list ul");
 
 
 function inputSearchToLocalStorage(idInput, getKey, nodeToPrint, searchFieldsArray) {
@@ -127,7 +122,6 @@ function inputSearchToLocalStorage(idInput, getKey, nodeToPrint, searchFieldsArr
 
 generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
-printFromLocalStorageToDOM();
 
 inputSearchToLocalStorage("#search", "alumno", "#list ul" , ["email", "id", "password"]);
 

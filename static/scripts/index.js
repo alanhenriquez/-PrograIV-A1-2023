@@ -46,7 +46,13 @@ createApp({
                     password: '',
                 },  
                 cont:{
-                    img: 'hola',
+                    img: {
+                      id:{
+                        h:{
+                          data: "Nuevo valor"
+                        }
+                      }
+                    },
                 },
             },
         }
