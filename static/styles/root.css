@@ -211,15 +211,15 @@
     float: left;
 }
 
-.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .containerDeleteAll{
-    width: 25%;
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .contIcon{
+    width: 20%;
     height: 100%;
     float: right;
     overflow: hidden;
     position: relative;
 }
 
-.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .containerDeleteAll span{
+.main .body .targetaData .content .listado ul li .containerMainData .containerHeader .opciones .contIcon span{
     width: auto;
     height: auto;
     top: 50%;

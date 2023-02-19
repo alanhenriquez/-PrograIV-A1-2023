@@ -34,11 +34,17 @@
                                 <div class="containerMainData">
                                     <div class="containerHeader">
                                         <div class="titulo">
-                                            <p>Email del usuario a identificar</p>
+                                            <p>{usuario.email}</p>
                                         </div>
                                         <div class="opciones">
-                                            <div class="containerDeleteAll">
+                                            <div class="contIcon containerDeleteAll">
                                                 <span class="icon-delete" title="Borrar todo" id="delete"></span>
+                                            </div>
+                                            <div class="contIcon containerEditAll">
+                                                <span class="icon-pencil" title="Editar todo" id="edit"></span>
+                                            </div>
+                                            <div class="contIcon containerEditAll">
+                                                <span class="icon-cloud-upload" title="Actualizar" id="update"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -48,7 +54,7 @@
                                                 <p>Id usuario</p>
                                             </div>
                                             <div class="data">
-                                                <p>data</p>
+                                                <p>{usuario.id}</p>
                                             </div>
                                         </div>
                                         <div class="mainData email">
@@ -56,7 +62,7 @@
                                                 <p>Email usuario</p>
                                             </div>
                                             <div class="data">
-                                                <p>data</p>
+                                                <p>{usuario.email}</p>
                                             </div>
                                         </div>
                                         <div class="mainData password">
@@ -64,7 +70,7 @@
                                             <p>Contraseña usuario</p>
                                             </div>
                                             <div class="data">
-                                                <p>data</p>
+                                                <p>{usuario.password}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -8,11 +8,26 @@
 
 
 
-// Printers * * * * * * * * * *
+// Printers * * * * * * * * * * || • 
 
 //----------IMPRIMIR VALORES DEL LOCAL STORAGE A TEMPLATE HTML
 
-function printFromLocalStorageToDOM(prKeyLS, template, placeToPrint) {
+function printFromLocalStorageToDOM(prKeyLS, template, queryPlaceToPrint) {
+  if (typeof prKeyLS !== "string" || prKeyLS === "") {
+    getError("La clave debe ser una cadena no vacía.");
+    return;
+  }
+
+  if (typeof template !== "string" || template === "") {
+    getError("La plantilla debe ser una cadena no vacía.");
+    return;
+  }
+
+  if (typeof queryPlaceToPrint !== "string" || queryPlaceToPrint === "") {
+    getError("El lugar para imprimir debe ser una cadena no vacía.");
+    return;
+  }
+
   let listado = localStorage.getItem(prKeyLS);
   if (listado) {
     listado = JSON.parse(listado);
@@ -22,6 +37,7 @@ function printFromLocalStorageToDOM(prKeyLS, template, placeToPrint) {
       let currentItem = item;
       let itemData = {};
 
+      console.log(item);
       const regex = /{([\w.]+)}/g;
       let match;
       while ((match = regex.exec(template)) !== null) {
@@ -34,11 +50,115 @@ function printFromLocalStorageToDOM(prKeyLS, template, placeToPrint) {
       for (let key in itemData) {
         itemHTML = itemHTML.replaceAll(key, itemData[key]);
       }
+
+      
       listaHTML += itemHTML;
     }
-    document.querySelector(placeToPrint).innerHTML = listaHTML;
+    document.querySelector(queryPlaceToPrint).innerHTML = listaHTML;
   } else {
-    console.log("No hay datos en el local storage");
+    getError("No hay datos en el local storage.");
+  }
+}
+
+
+function printTemplateDataLocalStorage(template,prKeyLS){
+  let currentItem = getLocalStorageObjects(prKeyLS);
+  let itemData = {};
+  const regex = /{([\w.]+)}/g;
+  let match;
+  while ((match = regex.exec(template)) !== null) {
+    const fullKey = match[1];
+    const value = getValueByKeys(currentItem, fullKey);
+    itemData[`{${fullKey}}`] = value;
+  }
+  let itemHTML = template;
+  for (let key in itemData) {
+    console.log(itemData[key]);
+    itemHTML = itemHTML.replaceAll(key, itemData[key]);
+  }
+  return itemHTML;
+}
+
+
+
+
+function printFromLocalStorageEqualToDOM(prKeyLS, template, placeToPrint, matchValue) {
+  if (typeof prKeyLS !== 'string' || prKeyLS.trim() === '') {
+    getError("La clave prKeyLS debe ser una cadena no vacía.");
+    return;
+  }
+
+  if (typeof template !== 'string' || template.trim() === '') {
+    getError("template debe ser una cadena no vacía.");
+    return;
+  }
+
+  if (typeof placeToPrint !== 'string' || placeToPrint.trim() === '') {
+    getError("placeToPrint debe ser una cadena no vacía.");
+    return;
+  }
+
+  if (matchValue == null) {
+    getError("matchValue debe ser un valor definido.");
+    return;
+  }
+
+  let listado = localStorage.getItem(prKeyLS);
+  if (!listado) {
+    getError("No hay datos en el local storage.");
+    return;
+  }
+
+  let parsedListado;
+  try {
+    parsedListado = JSON.parse(listado);
+  } catch (err) {
+    getError('El contenido de la clave prKeyLS no es un JSON válido:');
+    console.log(err);
+    return;
+  }
+
+  if (!Array.isArray(parsedListado)) {
+    getError('El contenido de prKeyLS no es un arreglo:' + parsedListado);
+    return;
+  }
+
+  let listaHTML = "";
+  for (let i = 0; i < parsedListado.length; i++) {
+    let item = parsedListado[i];
+    let currentItem = item;
+    let itemData = {};
+
+    const regex = /{([\w.]+)}/g;
+    let match;
+    let matching = false;
+    while ((match = regex.exec(template)) !== null) {
+      const fullKey = match[1];
+      const value = getValueByKeys(currentItem, fullKey);
+      itemData[`{${fullKey}}`] = value;
+      if (value === matchValue) {
+        matching = true;
+      }
+    }
+
+    if (matching) {
+      let itemHTML = template;
+      for (let key in itemData) {
+        itemHTML = itemHTML.replaceAll(key, itemData[key]);
+      }
+      listaHTML += itemHTML;
+    }
+  }
+
+  if (listaHTML !== "") {
+    let placeToPrintElement = document.querySelector(placeToPrint);
+    if (placeToPrintElement) {
+      placeToPrintElement.innerHTML = listaHTML;
+    } else {
+      getError("No se encontró el elemento para imprimir en el DOM." + placeToPrint);
+    }
+  } else {
+    getError("No se encontraron resultados.");
   }
 }
 
@@ -51,27 +171,47 @@ function printFromLocalStorageToDOM(prKeyLS, template, placeToPrint) {
 
 
 
-// Finders * * * * * * * * * *
+
+
+
+
+// Finders * * * * * * * * * * || •
 
 //----------ENCONTRAR ELEMENTO PADRE POR CLASE, ID O TAGNAME
 
 function findParentNode(element, targetParentClass) {
+  if (!element || !targetParentClass) {
+    getError('Elemento o clase de padre objetivo no definido');
+    return null;
+  }
+
   let current = element;
   while (current) {
-    if ((current.classList && current.classList.contains(targetParentClass)) ||
-        (current.id && current.id === targetParentClass) ||
-        (current.tagName && current.tagName === targetParentClass.toUpperCase())) {
+    if (current.classList && current.classList.contains(targetParentClass) ||
+        current.id && current.id === targetParentClass ||
+        current.tagName && current.tagName.toUpperCase() === targetParentClass.toUpperCase()) {
       return current;
     }
     current = current.parentNode;
   }
+
+  getError(`No se pudo encontrar el nodo padre con la clase '${targetParentClass}'`);
   return null;
 };
 
 //----------ENCONTRAR ELEMENTO HIJO POR CLASE, ID O TAGNAME
 
 function findChildNode(element, searchValue) {
-  if (!element || !element.children) {
+  if (!element) {
+    getError("El elemento es nulo o indefinido.");
+    return null;
+  }
+  if (!element.children) {
+    getError("El elemento no tiene hijos.");
+    return null;
+  }
+  if (typeof searchValue !== 'string' || !searchValue) {
+    getError("El valor de búsqueda debe ser una cadena no vacía. Y de estructura Query");
     return null;
   }
 
@@ -93,8 +233,20 @@ function findChildNode(element, searchValue) {
   return null;
 }
 
+
 function findChildNodes(element, searchValue) {
-  if (!element || !element.children) {
+  if (!element) {
+    getError("El elemento es nulo o indefinido.");
+    return [];
+  }
+  
+  if (!element.children) {
+    getError("El elemento no tiene hijos.");
+    return [];
+  }
+
+  if (typeof searchValue !== 'string' || searchValue.trim().length === 0) {
+    getError("El valor de búsqueda debe ser una cadena no vacía.");
     return [];
   }
 
@@ -112,9 +264,19 @@ function findChildNodes(element, searchValue) {
   return matchingNodes;
 }
 
+
 //----------ENCONTRAR ELEMENTO HIJO DE ARRAY POR RUTA
 
 function findKeyChildNode(data, searchKeyArray) {
+  if (!Array.isArray(data)) {
+    getError("Los datos no son un arreglo.");
+    return [];
+  }
+  if (typeof searchKeyArray !== "string" || searchKeyArray === "") {
+    getError("La cadena de búsqueda es inválida.");
+    return [];
+  }
+
   let result = [];
   for (let i = 0; i < data.length; i++) {
       let item = data[i];
@@ -122,7 +284,7 @@ function findKeyChildNode(data, searchKeyArray) {
       let currentItem = item;
       let found = true;
       for (let j = 0; j < searchKeys.length; j++) {
-          if (!currentItem[searchKeys[j]]) {
+          if (!currentItem || !currentItem[searchKeys[j]]) {
               found = false;
               break;
           }
@@ -133,7 +295,7 @@ function findKeyChildNode(data, searchKeyArray) {
           result.push(currentItem);
       }
   }
-  if (result.length == 0) {
+  if (result.length === 0) {
       result.push("Datos no encontrados");
   }
   return result;
@@ -148,24 +310,72 @@ function findKeyChildNode(data, searchKeyArray) {
 
 
 
-// Getters * * * * * * * * * *
+
+// Getters * * * * * * * * * * || •
 
 //----------OBTENER LOS VALORES DE ARRAY POR SUS KEYS
 
 function getValueByKeys(obj, keysString) {
+  if (typeof obj !== "object") {
+    getError("El primer argumento debe ser un objeto");
+    return undefined;
+  }
+  if (typeof keysString !== "string") {
+    getError("El segundo argumento debe ser una cadena de texto");
+    return undefined;
+  }
+
   const keys = keysString.split('.');
   let value = obj;
   for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      if (value.hasOwnProperty(key)) {
-      value = value[key];
-      } else {
+    const key = keys[i];
+    if (!value || !value.hasOwnProperty(key)) {
+      getError(`No se encontró la propiedad '${key}'`);
       return undefined;
-      }
+    }
+    value = value[key];
   }
   return value;
 }
 
+//----------OBTENER LA LINEA DE ERROR MAS EL MENSAJE DEL PORQUE
+
+function getError(mensaje) {
+  if (!mensaje || typeof mensaje !== 'string') {
+    console.error(`Se debe proporcionar un mensaje de error válido`);
+    return;
+  }
+
+  const error = new Error(`${mensaje} (Error en la línea ${new Error().stack.split('\n')[2].trim()})`);
+  console.error(error);
+}
+
+//----------OBTENER TODO EL OBJETO DEL LOCAL STORAGE
+
+function getLocalStorageObjects(key, callback) {
+  if (!(typeof key === "string" && key.trim().length > 0)){
+    getError("La clave (key) debe ser una cadena String no vacía");
+  }
+  else{
+    if (!(typeof callback === "function")) {
+      getError("El segundo parámetro (callback) debe ser una función.");
+    }
+    else{
+      let listado = localStorage.getItem(key);
+      if (listado) {
+        listado = JSON.parse(listado);
+        let item;
+        let listaHTML = "";
+        for (let i = 0; i < listado.length; i++) {
+          item = listado[i];
+          callback(item);
+        }
+      } else {
+        getError("No hay datos en el local storage.");
+      }
+    }
+  }
+}
 
 
 
@@ -173,23 +383,120 @@ function getValueByKeys(obj, keysString) {
 
 
 
-// Deleters * * * * * * * * * *
+
+
+
+
+
+// Deleters * * * * * * * * * * || •
 
 //----------DELETE NODO PADRE MEDIANTE HIJO
 
-function deleteParentViaChild(child,findParentIdentifier){
+function deleteParentViaChild(child, findParentIdentifier) {
+  if (!child) {
+    getError("No se proporcionó un nodo hijo válido");
+    return;
+  }
+
+  if (!findParentIdentifier) {
+    getError("No se proporcionó un identificador válido para buscar el nodo padre");
+    return;
+  }
+
   let containerMainData = findParentNode(child, findParentIdentifier);
-  containerMainData.remove();
+
+  if (!containerMainData) {
+    getError(`No se encontró ningún nodo padre con el identificador ${findParentIdentifier}`);
+    return;
+  }
+
+  try {
+    containerMainData.remove();
+  } catch (error) {
+    getError(`Ocurrió un error al eliminar el nodo padre con el identificador ${findParentIdentifier}: ${error.message}`);
+    return;
+  }
+
+  console.log(`Se eliminó exitosamente el nodo padre con el identificador ${findParentIdentifier}`);
+}
+
+//----------DELETE NODO HIJO MEDIANTE PADRE
+
+function deleteChildViaParent(parent, findChildIdentifier, optionalIndexToDelete) {
+
+  let children = parent.querySelectorAll(findChildIdentifier);
+  let child;
+
+  if (!parent) {
+    getError("No se proporcionó un nodo padre válido");
+    return;
+  }
+
+  if (!findChildIdentifier) {
+    getError("No se proporcionó un identificador válido para buscar el nodo hijo");
+    return;
+  }
+  
+  if (!children || children.length === 0) {
+    getError(`No se encontró ningún nodo hijo con el identificador ${findChildIdentifier}`);
+    return;
+  }
+  
+  if (children.length === 1) {
+    child = children[0];
+  } else {
+    const childIndex = optionalIndexToDelete;
+    if (!childIndex || isNaN(childIndex) || childIndex < 0 || childIndex >= children.length) {
+      getError(`No se proporcionó un índice válido para el nodo hijo que se desea eliminar`);
+      return;
+    }
+    child = children[childIndex];
+  }
+  
+  try {
+    child.remove();
+  } catch (error) {
+    getError(`Ocurrió un error al eliminar el nodo hijo con el identificador ${findChildIdentifier}: ${error.message}`);
+    return;
+  }
+  
+  console.log(`Se eliminó exitosamente el nodo hijo con el identificador ${findChildIdentifier}`);
 }
 
 //----------DELETE DATA DE LOCAL STORAGE + ALGUNA ESTRUCTURA HTML PADRE
 
-function deleteLocalStorageDOMData(botonDelete,findParentIdentifier,queryNodeToCompareText,prKeyLS,keyPathToCompare) {
-  let target = botonDelete.target;
-  let emailElement = findParentNode(target, findParentIdentifier).querySelector(queryNodeToCompareText);
-  let email = emailElement.textContent;
+function deleteLocalStorageDOMData(botonDelete,findParentIdentifier,prKeyLS,queryNodeToCompareText,keyPathToCompare) {
+  if (!botonDelete || !botonDelete.target) {
+    getError("No se proporcionó un botón de eliminar válido");
+    return;
+  }
+  
+  let target = botonDelete.target || botonDelete;
+  let parent = findParentNode(target, findParentIdentifier);
+  if (!parent) {
+    getError("No se encontró un nodo padre válido");
+    return;
+  }
+  
+  let element = parent.querySelector(queryNodeToCompareText);
+  if (!element) {
+    getError("No se encontró un nodo hijo válido para comparar");
+    return;
+  }
 
+  let texto = element.textContent;
+
+  if (!prKeyLS) {
+    getError("No se proporcionó un nombre de clave para buscar en el almacenamiento local");
+    return;
+  }
+  
   let localStorageData = JSON.parse(localStorage.getItem(prKeyLS));
+  if (!localStorageData || !Array.isArray(localStorageData)) {
+    getError("No se encontró ningún dato válido en el almacenamiento local");
+    return;
+  }
+  
   for (let i = 0; i < localStorageData.length; i++) {
       let item = localStorageData[i];
       let searchKeys = keyPathToCompare.split("/");
@@ -204,46 +511,74 @@ function deleteLocalStorageDOMData(botonDelete,findParentIdentifier,queryNodeToC
       }
       if (found) {
           console.log("se encontro");
-          if (currentItem === email) {
+          if (currentItem === texto) {
               localStorageData.splice(i, 1);
+              deleteParentViaChild(target,findParentIdentifier);
+              localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
               console.log("se borro");
               break;
           }
+      }else{
+        getError("No se pudo encontrar el elemento a eliminar");
       }
   }
 
-  localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
-  deleteParentViaChild(target,findParentIdentifier)
-  
 }
 
 //----------DELETE DATA DE LOCAL STORAGE
 
-function deleteLocalStorageViaCompare(textToCompare,prKeyLS,keyPathToCompare) {
+function deleteLocalStorageViaCompare(textToCompare, prKeyLS, keyPathToCompare) {
+  if (!textToCompare) {
+    getError("No se proporcionó un texto para comparar");
+    return;
+  }
+
+  if (!prKeyLS) {
+    getError("No se proporcionó una clave para acceder al almacenamiento local");
+    return;
+  }
+
+  if (!keyPathToCompare) {
+    getError("No se proporcionó una clave de búsqueda para comparar el texto");
+    return;
+  }
+
   let textCompare = textToCompare;
   let localStorageData = JSON.parse(localStorage.getItem(prKeyLS));
-  for (let i = 0; i < localStorageData.length; i++) {
-      let item = localStorageData[i];
-      let searchKeys = keyPathToCompare.split("/");
-      let currentItem = item;
-      let found = true;
-      for (let j = 0; j < searchKeys.length; j++) {
-          if (!currentItem[searchKeys[j]]) {
-              found = false;
-              break;
-          }
-          currentItem = currentItem[searchKeys[j]];
-      }
-      if (found) {
-          if (currentItem === textCompare) {
-              localStorageData.splice(i, 1);
-              console.log("se borro");
-              break;
-          }
-      }
+  if (!localStorageData) {
+    getError(`No se encontraron datos en el almacenamiento local con la clave ${prKeyLS}`);
+    return;
   }
-  localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
+
+  for (let i = 0; i < localStorageData.length; i++) {
+    let item = localStorageData[i];
+    let searchKeys = keyPathToCompare.split("/");
+    let currentItem = item;
+    let found = true;
+    for (let j = 0; j < searchKeys.length; j++) {
+      if (!currentItem[searchKeys[j]]) {
+        found = false;
+        break;
+      }
+      currentItem = currentItem[searchKeys[j]];
+    }
+    if (found) {
+      if (currentItem === textCompare) {
+        localStorageData.splice(i, 1);
+        localStorage.setItem(prKeyLS, JSON.stringify(localStorageData));
+        console.log("se borro");
+        break;
+      }
+    } else {
+      getError("No se pudo encontrar el elemento a eliminar");
+      return;
+    }
+  }
 }
+
+
+
+
 
 
 
@@ -499,7 +834,7 @@ function validateAddressNode(address) {
 
 
 
-// Existinguers * * * * * * * * * *
+// Existinguers * * * * * * * * * * || •
 
 //----------ENCONTRAMOS LA EXISTENCIA DE DATA ESPECIFICA DE LOCAL STORAGE
 
@@ -534,9 +869,29 @@ function existLocalStorageData(textToCompare,prKeyLS,keyPathToCompare) {
 
 
 
-// Mapa * * * * * * * * * *
+// Mapa * * * * * * * * * * || •
 
 function leafletMap(idMap, nodeToResult, initLat, initLong, usePopup) {
+  if (!idMap || typeof idMap !== "string") {
+    getError("No se proporcionó un identificador válido para el mapa");
+    return;
+  }
+
+  if (!nodeToResult) {
+    getError("No se proporcionó un nodo HTML válido para el resultado");
+    return;
+  }
+
+  if (typeof initLat !== "number" || typeof initLong !== "number") {
+    getError("Las coordenadas iniciales deben ser números");
+    return;
+  }
+
+  if (typeof usePopup !== "boolean") {
+    getError("El valor para usePopup debe ser un booleano");
+    return;
+  }
+
   var map = L.map(idMap).setView([initLat, initLong], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -596,6 +951,22 @@ function leafletMap(idMap, nodeToResult, initLat, initLong, usePopup) {
 }
 
 function showHideMap (boton,mapParent,addClass){
+
+  if (!boton || typeof boton !== "object" || !boton.addEventListener) {
+    getError("No se proporcionó un botón HTML válido");
+    return;
+  }
+
+  if (!mapParent || typeof mapParent !== "object") {
+    getError("No se proporcionó un nodo HTML válido para el mapa");
+    return;
+  }
+
+  if (typeof addClass !== "string") {
+    getError("La clase a agregar/remover debe ser una cadena de texto");
+    return;
+  }
+
   boton.addEventListener("click", function() {
     if (mapParent.classList.contains(addClass)){
       mapParent.classList.remove(addClass);
@@ -615,28 +986,51 @@ function showHideMap (boton,mapParent,addClass){
 
 
 
-// Generators * * * * * * * * * *
+// Generators * * * * * * * * * * || •
 
 //----------GENERADOR DE ID UNICO
 
 function generateUniqueID() {
-  return new Date().getTime().toString(20);
+  const id = new Date().getTime().toString(20);
+  if (id.length < 5) {
+    getError("El ID generado es demasiado corto");
+    return null;
+  }
+  return id;
 }
+
 
 //----------GENERADOR DE TIEMPO
 
 function generateCurrentTime() {
-  return new Date().toLocaleTimeString();
+  const time = new Date().toLocaleTimeString();
+  if (!time) {
+    getError("No se pudo obtener la hora actual");
+    return null;
+  }
+  return time;
 }
 
 //----------GENERADOR DE ICONO SHORTCUT
 
 function generateShortCutIcon(linkImg){
-  var link_icon_web = document.querySelector("link[rel='shortcut icon']") || document.createElement('link');
+  if (!linkImg) {
+    getError("No se proporcionó un enlace de imagen válido");
+    return;
+  }
+  
+  const link_icon_web = document.querySelector("link[rel='shortcut icon']") || document.createElement('link');
   link_icon_web.type = 'image/x-icon';
   link_icon_web.rel = 'shortcut icon';
   link_icon_web.href = linkImg;
-  document.getElementsByTagName('head')[0].appendChild(link_icon_web);
+
+  const head = document.getElementsByTagName('head')[0];
+  if (!head) {
+    getError("No se encontró la etiqueta head en el documento");
+    return;
+  }
+
+  head.appendChild(link_icon_web);
 }
 
 
@@ -649,12 +1043,24 @@ function generateShortCutIcon(linkImg){
 
 
 
-// Addresses href * * * * * * * * * *
+// Changers * * * * * * * * * * || •
 
 //----------CAMBIO POR DIRECCION HREF
 
 function changePageHref(link){
-  let linkNode = document.createElement("a");
+  if (!link || typeof link !== 'string') {
+    getError("Se debe proporcionar un enlace válido");
+    return;
+  }
+
+  const linkRegex = /^((http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?)$|^[\w\/]+(\.[\w-]+)*$/;
+
+  if (!link.match(linkRegex)) {
+    getError("Se debe proporcionar un enlace válido");
+    return;
+  }
+
+  const linkNode = document.createElement("a");
   linkNode.setAttribute("href",link);
   linkNode.click();
 }
@@ -668,18 +1074,92 @@ function changePageHref(link){
 
 
 
-// Actions on input * * * * * * * * * *
+// Actions on input * * * * * * * * * * || •
 
 //----------ACCIONES AL ESCRIBIR
 
 function actionOnInput(input, callback) {
-  let inputElem = document.querySelector(input);
+  const inputElem = document.querySelector(input);
+  if (!inputElem) {
+    getError("El selector de entrada no es válido");
+    return;
+  }
   inputElem.addEventListener("input", function() {
-      callback();
+    callback();
   });
 }
 
 
+//----------ACCIONES DE INPUT SEARCH ADAPTADO PARA LOCAL STORAGE
+
+function inputSearchToLocalStorage(idInput, getKey, template, nodeToPrint, searchFieldsArray) {
+  if (!idInput || typeof idInput !== 'string') {
+    getError(`Se debe proporcionar un ID de entrada válido para la búsqueda`);
+    return;
+  }
+
+  if (!getKey || typeof getKey !== 'string') {
+    getError(`Se debe proporcionar una clave válida para obtener los datos del local storage`);
+    return;
+  }
+
+  if (!template || typeof template !== 'string') {
+    getError(`Se debe proporcionar una plantilla HTML válida`);
+    return;
+  }
+
+  if (!nodeToPrint || typeof nodeToPrint !== 'string') {
+    getError(`Se debe proporcionar un ID de nodo válido para imprimir los resultados de la búsqueda`);
+    return;
+  }
+
+  if (!searchFieldsArray || !Array.isArray(searchFieldsArray)) {
+    getError(`Se debe proporcionar un array de campos de búsqueda válido`);
+    return;
+  }
+
+  let searchInput = document.querySelector(idInput);
+  actionOnInput(idInput, function() {
+    let searchTerm = searchInput.value.toLowerCase();
+    let listado = localStorage.getItem(getKey);
+    if (listado) {
+      listado = JSON.parse(listado);
+      let listaHTML = "";
+      for (let i = 0; i < listado.length; i++) {
+        let list = listado[i];
+        let found = false;
+        let itemData = {};
+        const regex = /{([\w.]+)}/g;
+
+        for (let j = 0; j < searchFieldsArray.length; j++) {
+          let field = searchFieldsArray[j];
+          let value = list.usuario[field];
+          if (value && value.toLowerCase().includes(searchTerm)) {
+            found = true;
+            break;
+          }
+        }
+
+        if (found) {
+          while ((match = regex.exec(template)) !== null) {
+            const fullKey = match[1];
+            const value = getValueByKeys(list, fullKey);
+            itemData[`{${fullKey}}`] = value;
+          }
+
+          let itemHTML = template;
+          for (let key in itemData) {
+            itemHTML = itemHTML.replaceAll(key, itemData[key]);
+          }
+          listaHTML += itemHTML;
+        }
+      }
+      document.querySelector(nodeToPrint).innerHTML = listaHTML;
+    } else {
+      console.log("No hay datos en el local storage");
+    }
+  });
+}
 
 
 

@@ -14,8 +14,11 @@ const template = `<li>
                     <p>{usuario.email}</p>
                 </div>
                 <div class="opciones">
-                    <div class="containerDeleteAll">
+                    <div class="contIcon containerDeleteAll">
                         <span class="icon-delete" title="Borrar todo" id="delete"></span>
+                    </div>
+                    <div class="contIcon containerEditAll">
+                        <span class="icon-pencil" title="Editar todo" id="edit"></span>
                     </div>
                 </div>
             </div>
@@ -48,91 +51,98 @@ const template = `<li>
         </div>
     </li>`;
 
-// Llamada a la función con la plantilla
+    const templateEdit = `<li>
+        <div class="containerMainData">
+            <div class="containerHeader">
+                <div class="titulo">
+                    <p>{usuario.email}</p>
+                </div>
+                <div class="opciones">
+                    <div class="contIcon containerDeleteAll">
+                        <span class="icon-delete" title="Borrar todo" id="delete"></span>
+                    </div>
+                    <div class="contIcon containerEditAll">
+                        <span class="icon-pencil" title="Editar todo" id="edit"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="containerData">
+                <div class="mainData id">
+                    <div class="topic">
+                        <p>Id usuario - Editando</p>
+                    </div>
+                    <div class="data">
+                        <p>{usuario.id}</p>
+                    </div>
+                </div>
+                <div class="mainData email">
+                    <div class="topic">
+                        <p>Email usuario</p>
+                    </div>
+                    <div class="data">
+                        <p>{usuario.email}</p>
+                    </div>
+                </div>
+                <div class="mainData password">
+                    <div class="topic">
+                    <p>Contraseña usuario</p>
+                    </div>
+                    <div class="data">
+                        <p>{usuario.password}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>`;
+
+
+
 printFromLocalStorageToDOM("alumno", template, "#list ul");
 
-
-function inputSearchToLocalStorage(idInput, getKey, nodeToPrint, searchFieldsArray) {
-    let searchInput = document.querySelector(idInput);
-    actionOnInput(idInput, function() {
-        let searchTerm = searchInput.value.toLowerCase();
-        let listado = localStorage.getItem(getKey);
-        if (listado) {
-            listado = JSON.parse(listado);
-            let listaHTML = "";
-            for (let i = 0; i < listado.length; i++) {
-                let list = listado[i];
-                for (let j = 0; j < searchFieldsArray.length; j++) {
-                    let field = searchFieldsArray[j];
-                    let value = list.usuario[field];
-                    if (value && value.toLowerCase().includes(searchTerm)) {
-                        listaHTML += `
-                            <li>
-                                <div class="containerMainData">
-                                    <div class="containerHeader">
-                                        <div class="titulo">
-                                            <p>`+list.usuario.email+`</p>
-                                        </div>
-                                        <div class="opciones">
-                                            <div class="containerDeleteAll">
-                                                <span class="icon-delete" title="Borrar todo" id="delete"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="containerData">
-                                        <div class="mainData id">
-                                            <div class="topic">
-                                                <p>Id usuario</p>
-                                            </div>
-                                            <div class="data">
-                                                <p>`+list.usuario.id+`</p>
-                                            </div>
-                                        </div>
-                                        <div class="mainData email">
-                                            <div class="topic">
-                                                <p>Email usuario</p>
-                                            </div>
-                                            <div class="data">
-                                                <p>`+list.usuario.email+`</p>
-                                            </div>
-                                        </div>
-                                        <div class="mainData password">
-                                            <div class="topic">
-                                            <p>Contraseña usuario</p>
-                                            </div>
-                                            <div class="data">
-                                                <p>`+list.usuario.password+`</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>`;
-                        break;
-                    }
-                }
-            }
-            document.querySelector(nodeToPrint).innerHTML = listaHTML;
-        } else {
-            console.log("No hay datos en el local storage");
-        }
-    });
-}
-
-
+printFromLocalStorageEqualToDOM("alumno",template,"#list ul","alanderek@gmail.co");
 
 generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
+inputSearchToLocalStorage("#search", "alumno", template, "#list ul" , ["email", "id", "password"]);
 
-inputSearchToLocalStorage("#search", "alumno", "#list ul" , ["email", "id", "password"]);
-
-
+changePageHref("camera.html")
 
 
   
 let deleteButton = document.querySelectorAll(".icon-delete");
 for (let i = 0; i < deleteButton.length; i++) {
     deleteButton[i].addEventListener("click", function(e){
-        deleteLocalStorageDOMData(e,"li",".containerHeader .titulo p","alumno","usuario/email");
+
+        deleteLocalStorageDOMData(e,"li","alumno",".containerHeader .titulo p","cont/img/id/h/data");
+
     });
 }
+
+
+function updateLSToDOM(queryButton,targetParent,queryNodeToCompareTX,queryNodeToPrint,prKeyLS,template){
+    let editButton = document.querySelectorAll(queryButton);
+    for (let i = 0; i < deleteButton.length; i++) {
+        editButton[i].addEventListener("click", function(e){
+            let target = e.target;
+            let parent = findParentNode(target,targetParent);
+            let textCompare = parent.querySelector(queryNodeToCompareTX).textContent;
+            // console.log(textCompare);
+            // deleteParentViaChild(target,)
+            deleteChildViaParent(parent,".containerMainData",0);
+
+            // printFromLocalStorageEqualToDOM(prKeyLS,template,queryNodeToPrint,textCompare);
+
+        });
+    }
+}
+
+
+
+updateLSToDOM(".icon-pencil","li",".containerHeader .titulo p","li","alumno",templateEdit);
+
+
+
+
+
+
 
