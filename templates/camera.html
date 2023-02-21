@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso a la cámara con canvas</title>
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg/dist/ffmpeg.min.js"></script>
+
 </head>
 <body>
     <style>
@@ -23,6 +25,10 @@
     <button id="flipCamera">Voltear camara</button>
     <button id="startRecording">Iniciar grabacion</button>
     <button id="stopRecording">Apagar grabacion</button>
+    <button id="toogleMicrofone">Apagar/Encender microfono</button>
+    <button id="toogleVideo">Apagar/Encender video de camara</button>
+    <button id="pauseResumeRecording">Pausar/Reanudar grabacion</button>
+    <div id="recording-time">00:00</div>
     
     <script src="../static/scripts/camera.js"></script>
 </body>
