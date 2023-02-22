@@ -164,11 +164,11 @@ const template = `<li>
     `;
 
 
-printFromLocalStorageToDOM("cliente", templateCliente, "#list ul");
+printFromLocalStorageToDOM("alumno", template, "#list ul");
 
 generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
-inputSearchToLocalStorage("#search", "cliente", templateCliente, "#list ul" , ["nombre", "codigo"]);
+inputSearchToLocalStorage("#search", "alumno", template, "#list ul" , ["nombre", "codigo"]);
 
 
 
@@ -177,7 +177,7 @@ let deleteButton = document.querySelectorAll(".icon-delete");
 for (let i = 0; i < deleteButton.length; i++) {
     deleteButton[i].addEventListener("click", function(e){
 
-        deleteLocalStorageDOMData(e,"li","cliente",".containerHeader .titulo p","registro/id");
+        deleteLocalStorageDOMData(e,"li","alumno",".containerHeader .titulo p","usuario/id");
 
     });
 }
