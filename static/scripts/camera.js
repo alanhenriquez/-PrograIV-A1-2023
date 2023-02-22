@@ -28,6 +28,9 @@ const camera = {
     renderFrame: null,
     isRunning: false,
     isRunningReady: false,
+    elementTime: null,
+    t: undefined,
+    mediaRecorder: null,
     start: function(canvas, mirror = false) {
         if (this.isRunning){ 
             console.log("La camara se encuentra en uso.")
@@ -204,7 +207,8 @@ const camera = {
     
                     this.mediaRecorder = null;
                 });
-    
+
+                
                 this.mediaRecorder.start();
                 console.log("La grabación ha comenzado.");
             })
@@ -257,28 +261,18 @@ const camera = {
       
         console.log(`El video de la cámara ahora está ${videoTrack.enabled ? "activado" : "desactivado"}`);
     },
-    pauseResumeRecording: function() {
-        if (!this.mediaRecorder) {
-            console.log("No hay grabación en progreso para pausar/reanudar.");
-            return;
-        }
-
-        if (this.mediaRecorder.state === 'recording') {
-            this.mediaRecorder.pause();
-            console.log("La grabación se ha pausado.");
-        } else if (this.mediaRecorder.state === 'paused') {
-            this.mediaRecorder.resume();
-            console.log("La grabación se ha reanudado.");
-        }
-    },
     showRecordingTime: function(element) {
+        this.mediaRecorder = new MediaRecorder(this.stream, { mimeType: "video/webm" });
+        this.elementTime = element;
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
-        let t;
     
-        const add = function() {
+        const add = () => {
+            if (!this.mediaRecorder) return; // Detener el conteo si no hay grabación
+    
             seconds++;
+    
             if (seconds >= 60) {
                 seconds = 0;
                 minutes++;
@@ -287,17 +281,72 @@ const camera = {
                     hours++;
                 }
             }
-            element.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
-                                    (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
-                                    (seconds > 9 ? seconds : "0" + seconds);
     
-            t = setTimeout(add, 1000);
+            this.elementTime.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
+                                            (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
+                                            (seconds > 9 ? seconds : "0" + seconds);
+    
+            this.t = setTimeout(add, 1000);
         };
     
         add();
-    },
     
+    },
+    pauseResumeRecording: function() {
+        if (!this.mediaRecorder) {
+            console.log("No hay grabación en progreso para pausar/reanudar.");
+            return;
+        }
+    
+        if (this.mediaRecorder.state === 'recording') {
+            this.mediaRecorder.pause();
+            clearTimeout(this.t);
+            console.log("La grabación se ha pausado.");
+        } else if (this.mediaRecorder.state === 'paused') {
+            this.mediaRecorder.resume();
+            let time = this.elementTime.textContent.split(":");
+            let seconds = parseInt(time[2]);
+            let minutes = parseInt(time[1]);
+            let hours = parseInt(time[0]);
+            const add = () => {
+                seconds++;
+        
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                    if (minutes >= 60) {
+                        minutes = 0;
+                        hours++;
+                    }
+                }
+        
+                this.elementTime.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
+                                                (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
+                                                (seconds > 9 ? seconds : "0" + seconds);
+        
+                this.t = setTimeout(add, 1000);
+            };
+            
+            add();
+        }
+        this.mediaRecorder.addEventListener('stop', () => {
+            clearTimeout(this.t);
+            this.elementTime.textContent = "00:00:00";
+            console.log("La grabación ha terminado.");
+        });
+    },
+    tools:{
+        padNumber(num, size) {
+            let s = num + '';
+            while (s.length < size) {
+              s = '0' + s;
+            }
+            return s;
+        }
+    }
 };
+
+// https://pelispanda.re/series/the-last-of-us/?dll=ajRwU200TjNNTkoySVlNQmN1VTBjQT09
   
 turnOFF.addEventListener("click", function() {
     camera.stop();
@@ -336,10 +385,30 @@ pauseResumeRecording.addEventListener("click", function() {
     camera.pauseResumeRecording();
 });
 
-  
+/*
+// Pausar o reanudar el conteo dependiendo del estado de la grabación
+const pauseResumeTime = () => {
+    if (!this.mediaRecorder) return; // Detener el conteo si no hay grabación
+    if (this.mediaRecorder.state === 'recording') {
+        clearTimeout(t);
+        console.log("El tiempo de grabación se ha pausado.");
+    } else if (this.mediaRecorder.state === 'paused') {
+        add();
+        console.log("El tiempo de grabación se ha reanudado.");
+    }
+};
 
+// Escuchar los eventos de pausa y reanudación de la grabación
+this.mediaRecorder.addEventListener('pause', pauseResumeTime);
+this.mediaRecorder.addEventListener('resume', pauseResumeTime);
 
-
+// Reiniciar el tiempo si la grabación ha terminado
+this.mediaRecorder.addEventListener('stop', () => {
+    clearTimeout(t);
+    this.elementTime.textContent = "00:00:00";
+    console.log("La grabación ha terminado.");
+});
+*/
 
 
 
