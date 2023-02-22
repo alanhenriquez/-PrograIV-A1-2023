@@ -37,7 +37,6 @@ function printFromLocalStorageToDOM(prKeyLS, template, queryPlaceToPrint) {
       let currentItem = item;
       let itemData = {};
 
-      console.log(item);
       const regex = /{([\w.]+)}/g;
       let match;
       while ((match = regex.exec(template)) !== null) {
@@ -334,9 +333,14 @@ function getValueByKeys(obj, keysString) {
       return undefined;
     }
     value = value[key];
+    if (typeof value !== "object" && i < keys.length - 1) {
+      getError(`La propiedad '${key}' no es un objeto`);
+      return undefined;
+    }
   }
   return value;
 }
+
 
 //----------OBTENER LA LINEA DE ERROR MAS EL MENSAJE DEL PORQUE
 
@@ -1133,7 +1137,7 @@ function inputSearchToLocalStorage(idInput, getKey, template, nodeToPrint, searc
 
         for (let j = 0; j < searchFieldsArray.length; j++) {
           let field = searchFieldsArray[j];
-          let value = list.usuario[field];
+          let value = list.registro[field];
           if (value && value.toLowerCase().includes(searchTerm)) {
             found = true;
             break;

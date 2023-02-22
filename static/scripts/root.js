@@ -96,16 +96,80 @@ const template = `<li>
     </li>`;
 
 
+    const templateCliente = `
+    <li>
+    <div class="containerMainData">
+        <div class="containerHeader">
+            <div class="titulo">
+                <p>{registro.id}</p>
+            </div>
+            <div class="opciones">
+                <div class="contIcon containerDeleteAll">
+                    <span class="icon-delete" title="Borrar todo" id="delete"></span>
+                </div>
+                <div class="contIcon containerEditAll">
+                    <span class="icon-pencil" title="Editar todo" id="edit"></span>
+                </div>
+                <div class="contIcon containerEditAll">
+                    <span class="icon-cloud-upload" title="Actualizar" id="update"></span>
+                </div>
+            </div>
+        </div>
+        <div class="containerData">
+            <div class="mainData id">
+                <div class="topic">
+                    <p>Id usuario</p>
+                </div>
+                <div class="data">
+                    <p>{registro.id}</p>
+                </div>
+            </div>
+            <div class="mainData email">
+                <div class="topic">
+                    <p>Email usuario</p>
+                </div>
+                <div class="data">
+                    <p>{registro.nombre}</p>
+                </div>
+            </div>
+            <div class="mainData password">
+                <div class="topic">
+                <p>Contraseña usuario</p>
+                </div>
+                <div class="data">
+                    <p>{registro.codigo}</p>
+                </div>
+            </div>
+            <div class="mainData password">
+                <div class="topic">
+                <p>Contraseña usuario</p>
+                </div>
+                <div class="data">
+                    <p>{registro.direccion}</p>
+                </div>
+            </div>
+            <div class="mainData password">
+                <div class="topic">
+                <p>Contraseña usuario</p>
+                </div>
+                <div class="data">
+                    <p>{registro.zona}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
 
-printFromLocalStorageToDOM("alumno", template, "#list ul");
+    
+    `;
 
-printFromLocalStorageEqualToDOM("alumno",template,"#list ul","alanderek@gmail.co");
+
+printFromLocalStorageToDOM("cliente", templateCliente, "#list ul");
 
 generateShortCutIcon("../static/resource/img/logo/img1000.png");
 
-inputSearchToLocalStorage("#search", "alumno", template, "#list ul" , ["email", "id", "password"]);
+inputSearchToLocalStorage("#search", "cliente", templateCliente, "#list ul" , ["nombre", "codigo"]);
 
-changePageHref("camera.html")
 
 
   
@@ -113,7 +177,7 @@ let deleteButton = document.querySelectorAll(".icon-delete");
 for (let i = 0; i < deleteButton.length; i++) {
     deleteButton[i].addEventListener("click", function(e){
 
-        deleteLocalStorageDOMData(e,"li","alumno",".containerHeader .titulo p","cont/img/id/h/data");
+        deleteLocalStorageDOMData(e,"li","cliente",".containerHeader .titulo p","registro/id");
 
     });
 }

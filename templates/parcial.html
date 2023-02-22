@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registro alumnos</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/basic.css">
+    <link rel="stylesheet" href="../static/styles/index.css">
+    <link rel="stylesheet" href="../static/resource/icomoon/style.css">
+    <link rel="stylesheet" href="../static/styles/Fuentes-tipografia.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="../static/scripts/vue.global.js"></script>
+</head>
+<body>
+    <main class="principal" id="app2">
+        <section class="header">
+            <div class="content-title">
+                <strong> Registro de Clientes </strong>
+            </div>
+        </section>
+        <form class="body">
+            <div class="body-container">
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu codigo de cliente</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="cliente.registro.codigo" class="codigo" type="codigo" placeholder="codigo" title="codigo" id="codigo">
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu nombre</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="cliente.registro.nombre" class="password" type="text" placeholder="nombre" title="nombre" id="nombre">
+                    </div>
+                </div>
+                <div class="targeta-registro map">
+                    <div class="contenedor-title">
+                        <p>Ingresa tu dirección</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="cliente.registro.direccion" class="direccion" type="name" placeholder="Dirección de donde vives" title="Dirección de donde vives" id="direccion">
+                        
+                    </div>
+                    <div class="contenedor-mapa">
+                        <div class="mapa" id='map'></div>
+                    </div>
+                </div>
+                <div class="targeta-registro">
+                    <div class="contenedor-title">
+                        <p>Escribe tu zona</p>
+                    </div>
+                    <div class="contenedor-input">
+                        <input v-model="cliente.registro.zona" class="zona" type="zona" placeholder="zona" title="zona" id="zona">
+                    </div>
+                </div>
+            </div>
+            <section class="footer">
+                <div class="contenedor-enviar" v-on:click="guardarCliente">
+                    <p>Ingresar</p>
+                </div>
+            </section>
+        </form>
+    </main>
+    
+
+    <script src="../static/scripts/basic.js" ></script>
+    <script src="../static/scripts/parcial.js" ></script>
+    <script src="../static/scripts/jquery.js" ></script>
+</body>
+</html>

@@ -3,6 +3,7 @@
 
 
 
+generateShortCutIcon("static/resource/img/logo/img1000.png");
 const datos = {
     form:{
         nodos:{
@@ -22,6 +23,7 @@ const datos = {
     map:{
         nodos:{
         nodeMap: document.querySelector("#map"),
+        nodeMap2: document.querySelector("#map2"),
         }
     }
 }
@@ -34,7 +36,13 @@ const datos = {
 
 
 
+
+
+
+
 const { createApp } = Vue;
+
+/*
 createApp({
     data() {
         return {
@@ -77,8 +85,58 @@ createApp({
           }
           
         },
+        actualizarAlumno() {
+          let alumnos = JSON.parse(localStorage.getItem("alumno") || "[]");
+          let index = alumnos.findIndex(a => a.usuario.id === this.alumno.usuario.id);
+          if (index !== -1) {
+            if (validEmail(this.alumno.usuario.email) && validPassword(this.alumno.usuario.password)){
+              alumnos[index] = this.alumno;
+              localStorage.setItem("alumno", JSON.stringify(alumnos));
+              changePageHref("templates/root.html");
+            }
+            else if (validEmail(this.alumno.usuario.email)){
+              console.log("*** Actualización de usuario UGB: Contraseña invalida")
+            }
+            else if (validPassword(this.alumno.usuario.password)){
+              console.log("*** Actualización de usuario UGB: Email invalida")
+            }
+            else{
+              console.log("*** Actualización de usuario UGB: Email y Contraseña invalidas")
+            }
+          } else {
+            console.log(`*** No se encontró el alumno con id ${this.alumno.usuario.id}`);
+          }
+        }
     }
 }).mount('#app');
+*/
+
+
+createApp({
+  data() {
+      return {
+          clientes: [],
+          cliente:{
+              registro:{
+                  id: '',
+                  codigo: '',
+                  nombre: '',
+                  direccion: '',
+                  zona: '',
+              }
+          },
+      }
+  },
+  methods:{
+      guardarCliente(){
+          this.cliente.registro.id = "id" + generateUniqueID();
+          this.clientes = JSON.parse(localStorage.getItem("clientes") || "[]" );
+          this.clientes.push( this.cliente );
+          localStorage.setItem("clientes", JSON.stringify(this.clientes) );
+          changePageHref("../../templates/root.html");
+      },
+  }
+}).mount('#app2');
 
 
 
@@ -87,8 +145,7 @@ createApp({
 
 
 
-generateShortCutIcon("static/resource/img/logo/img1000.png");
-
+/*
 validateEmail(document.querySelector("#email"));
   
 validatePassword(datos.form.nodos.nodePassword);
@@ -98,8 +155,9 @@ validateName(datos.form.nodos.nodeName);
 validateAge(datos.form.nodos.nodeEdad);
 
 validateAddressNode(document.getElementById("direccion"));
+*/
 
-leafletMap(datos.map.nodos.nodeMap,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
+leafletMap(datos.map.nodos.nodeMap2,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
 
 showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMap,datos.form.class.show);
 
