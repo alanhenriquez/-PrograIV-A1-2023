@@ -42,7 +42,7 @@ const datos = {
 
 const { createApp } = Vue;
 
-/*
+
 createApp({
     data() {
         return {
@@ -109,34 +109,6 @@ createApp({
         }
     }
 }).mount('#app');
-*/
-
-
-createApp({
-  data() {
-      return {
-          clientes: [],
-          cliente:{
-              registro:{
-                  id: '',
-                  codigo: '',
-                  nombre: '',
-                  direccion: '',
-                  zona: '',
-              }
-          },
-      }
-  },
-  methods:{
-      guardarCliente(){
-          this.cliente.registro.id = "id" + generateUniqueID();
-          this.clientes = JSON.parse(localStorage.getItem("clientes") || "[]" );
-          this.clientes.push( this.cliente );
-          localStorage.setItem("clientes", JSON.stringify(this.clientes) );
-          changePageHref("../../templates/root.html");
-      },
-  }
-}).mount('#app2');
 
 
 
@@ -145,7 +117,7 @@ createApp({
 
 
 
-/*
+
 validateEmail(document.querySelector("#email"));
   
 validatePassword(datos.form.nodos.nodePassword);
@@ -155,7 +127,7 @@ validateName(datos.form.nodos.nodeName);
 validateAge(datos.form.nodos.nodeEdad);
 
 validateAddressNode(document.getElementById("direccion"));
-*/
+
 
 leafletMap(datos.map.nodos.nodeMap2,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
 
