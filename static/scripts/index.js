@@ -117,7 +117,7 @@ createApp({
 
 
 
-/*
+
 validateEmail(document.querySelector("#email"));
   
 validatePassword(datos.form.nodos.nodePassword);
@@ -127,7 +127,7 @@ validateName(datos.form.nodos.nodeName);
 validateAge(datos.form.nodos.nodeEdad);
 
 validateAddressNode(document.getElementById("direccion"));
-*/
+
 
 leafletMap(datos.map.nodos.nodeMap2,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
 
