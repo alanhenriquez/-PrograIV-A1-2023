@@ -99,7 +99,7 @@ validateAge(datos.form.nodos.nodeEdad);
 
 validateAddressNode(document.getElementById("direccion"));
 
-leafletMap(datos.map.nodos.nodeMap,datos.form.nodos.nodeDireccion,13.341725,-88.418237,false);
+leafletMap("map", document.getElementById("direccion"),13.341725,-88.418237,false);
 
-showHideMap(datos.form.nodos.nodeDireccionBotonMap,datos.form.nodos.nodeParentMap,datos.form.class.show);
+showHideMap(document.querySelector("#mostrar-mapa"),document.querySelector(".targeta-registro.map .contenedor-mapa"),"show");
 
