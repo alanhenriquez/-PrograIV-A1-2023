@@ -44,16 +44,7 @@ createApp({
                     id: '',
                     email: '',
                     password: '',
-                },  
-                cont:{
-                    img: {
-                      id:{
-                        h:{
-                          data: "Nuevo valor"
-                        }
-                      }
-                    },
-                },
+                }
             },
         }
     },

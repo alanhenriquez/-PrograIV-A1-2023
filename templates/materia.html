@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registro alumnos</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/basic.css">
+    <link rel="stylesheet" href="../static/styles/index.css">
+    <link rel="stylesheet" href="../static/styles/root.css">
+    <link rel="stylesheet" href="../static/resource/icomoon/style.css">
+    <link rel="stylesheet" href="../static/styles/Fuentes-tipografia.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="../static/scripts/vue.global.js"></script>
+</head>
+<body>
+
+    <div class="creating">
+        <div class="main">
+            <div class="header"></div>
+            <div class="body">
+                <div class="targetaData">
+                    <div class="title">
+                        <div class="titleCont">
+                            <p>Usuarios Ingresados</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="listado" id="list">
+                            <ul>
+                                <li>
+                                    <div class="containerMainData">
+                                        <div class="containerHeader">
+                                            <div class="titulo">
+                                                <p>{usuario.id}</p>
+                                            </div>
+                                        </div>
+                                        <div class="containerData">
+                                            <div class="mainData nombre">
+                                                <div class="topic">
+                                                    <p>Id usuario</p>
+                                                </div>
+                                                <div class="data">
+                                                    <p>{usuario.nombre}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    
+
+    <div class="footer">
+        <section class="principal2">
+            <section class="header">
+                <div class="content-title">
+                    <strong> Inscripcion de materias </strong>
+                </div>
+            </section>
+            <section class="body">
+                <div class="body-container">
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Materia 1</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="nombreFull" type="name" placeholder="Nombre completo" title="Nombre completo" id="nombreFull">
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Escribe tu edad</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="edad" type="name" placeholder="Edad en años" title="Edad" id="edad">
+                        </div>
+                    </div>
+                    <div class="targeta-registro map">
+                        <div class="contenedor-title">
+                            <p>Ingresa tu dirección</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="direccion" type="name" placeholder="Dirección de donde vives" title="Dirección de donde vives" id="direccion">
+                            <div class="boton-show-map" id="mostrar-mapa" title="Mostrar mapa">
+                                <span class="icon-keyboard_arrow_down"></span>
+                            </div>
+                        </div>
+                        <div class="contenedor-mapa">
+                            <div class="mapa" id='map'></div>
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Ingresa tu municipio</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="municipio" type="name" placeholder="Dirección de tu municipio" title="Dirección de tu municipio" id="municipio">
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Ingresa tu departamento</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="departamento" type="name" placeholder="Dirección de tu departamento" title="Dirección de tu departamento" id="departamento">
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Ingresa tu telefono</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="telefono" type="name" placeholder="Dirección de tu telefono" title="Dirección de tu telefono" id="telefono">
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Ingresa tu fecha de nacimiento</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="fechaNacimiento" type="date" placeholder="Fecha de nacimiento" title="Fecha de nacimiento" id="fechaNacimiento">
+                        </div>
+                    </div>
+                    <div class="targeta-registro">
+                        <div class="contenedor-title">
+                            <p>Indicanos cual es tu sexo</p>
+                        </div>
+                        <div class="contenedor-input">
+                            <input class="sexo" type="name" placeholder="Sexo" title="Especifica tu sexo" id="sexo">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="footer">
+                <div class="contenedor-enviar" v-on:summit id="btRegistrarUGB">
+                    <p>Registrarse</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+
+    <script src="../static/scripts/basic.js" ></script>
+    <script src="../static/scripts/materia.js" ></script>
+    <script src="../static/scripts/jquery.js" ></script>
+</body>
+</html>

@@ -7,6 +7,21 @@
 
 
 
+.creating{
+    width: 45vw;
+    height: 100vh;
+    top: 0;
+    left: 100%;
+    float: left;
+    position: fixed;
+    overflow: hidden;
+    transform: translate(-100%,-0);
+}
+
+
+
+
+
 .main{
     width: 90vw;
     height: 100vh;
@@ -17,9 +32,29 @@
     transform: translate(-50%,-0%);
 }
 
+.creating .main{
+    width: 100%;
+    height: 80%;
+    top: 0%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: absolute;
+    transform: translate(-50%,-0%);
+}
+
+
 .main .header{
     width: 100%;
     height: 10vw;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.creating .main .header{
+    width: 100%;
+    height: 3vw;
     float: left;
     overflow: hidden;
     position: relative;
@@ -33,8 +68,8 @@
     position: relative;
 }
 
-.main .body .targetaData{
-    width: 75vw;
+.targetaData{
+    width: 75%;
     height: auto;
     top: 0%;
     left: 50%;
@@ -45,6 +80,20 @@
     transform: translate(-50%,-0%);
     border-radius: 3vw;
     margin-bottom: 10vw;
+}
+
+.creating .targetaData{
+    width: 75%;
+    height: auto;
+    top: 0%;
+    left: 50%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    transform: translate(-50%,-0%);
+    border-radius: 3vw;
+    margin-bottom: 0vw;
 }
 
 .main .body .targetaData .title{
@@ -126,7 +175,7 @@
 
 .main .body .targetaData .content{
     width: 100%;
-    height: 30vw;
+    height: 15vw;
     top: 0%;
     left: 50%;
     float: left;
